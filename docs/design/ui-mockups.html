@@ -1,0 +1,530 @@
+<title>KIN — Mobile UI Directions</title>
+<style>
+  /* ---------- Gallery chrome (theme-aware) ---------- */
+  :root{
+    --page-bg:#F3F1EC; --page-surface:#FFFFFF; --page-ink:#1B1F27;
+    --page-muted:#5C6470; --page-line:#E1DDD4; --page-accent:#2E5CB8;
+    --shadow:0 24px 60px -28px rgba(20,25,40,.45);
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --rounded:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,"Cascadia Code",monospace;
+    --serif:"Iowan Old Style",Georgia,"Times New Roman",serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --page-bg:#0F1216; --page-surface:#171B21; --page-ink:#ECEFF3;
+      --page-muted:#98A1AE; --page-line:#262C34; --page-accent:#7AA2F0;
+      --shadow:0 24px 60px -24px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="light"]{
+    --page-bg:#F3F1EC; --page-surface:#FFFFFF; --page-ink:#1B1F27;
+    --page-muted:#5C6470; --page-line:#E1DDD4; --page-accent:#2E5CB8;
+    --shadow:0 24px 60px -28px rgba(20,25,40,.45);
+  }
+  :root[data-theme="dark"]{
+    --page-bg:#0F1216; --page-surface:#171B21; --page-ink:#ECEFF3;
+    --page-muted:#98A1AE; --page-line:#262C34; --page-accent:#7AA2F0;
+    --shadow:0 24px 60px -24px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page-bg);color:var(--page-ink);font-family:var(--sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(28px,5vw,72px) clamp(18px,4vw,40px)}
+
+  /* ---------- Masthead ---------- */
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--page-muted);font-weight:600}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(34px,6vw,58px);
+    line-height:1.02;margin:14px 0 0;text-wrap:balance;letter-spacing:-.01em}
+  .lede{max-width:60ch;margin:18px 0 0;font-size:clamp(15px,1.6vw,18px);color:var(--page-muted)}
+  .lede b{color:var(--page-ink);font-weight:600}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+  .meta span{font-size:12.5px;padding:6px 12px;border:1px solid var(--page-line);
+    border-radius:999px;background:var(--page-surface);color:var(--page-muted)}
+
+  .rule{height:1px;background:var(--page-line);margin:clamp(40px,6vw,68px) 0}
+
+  /* ---------- Direction header ---------- */
+  .dir-head{display:flex;flex-wrap:wrap;gap:18px 28px;align-items:flex-start;
+    justify-content:space-between;margin-bottom:30px}
+  .dir-id{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--page-muted)}
+  .dir-title{font-family:var(--serif);font-size:clamp(24px,3.2vw,34px);margin:6px 0 0;font-weight:600}
+  .dir-desc{max-width:52ch;margin:12px 0 0;color:var(--page-muted);font-size:15px}
+  .dir-desc b{color:var(--page-ink);font-weight:600}
+  .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .sw{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--page-muted);
+    font-family:var(--mono)}
+  .sw i{width:16px;height:16px;border-radius:5px;display:inline-block;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+  .best{font-size:12.5px;color:var(--page-muted);max-width:22ch;text-align:right}
+  .best b{color:var(--page-ink);font-weight:600}
+
+  /* ---------- Phone rail ---------- */
+  .rail{display:flex;gap:26px;overflow-x:auto;padding:6px 2px 22px;
+    scroll-snap-type:x mandatory}
+  .col{flex:0 0 auto;scroll-snap-align:start;display:flex;flex-direction:column;gap:12px;
+    align-items:center}
+  .col .cap{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--page-muted);
+    text-transform:uppercase}
+
+  .phone{width:264px;height:560px;border-radius:38px;padding:9px;position:relative;
+    background:linear-gradient(160deg,#3a3f47,#15181d);box-shadow:var(--shadow);flex:0 0 auto}
+  .phone::after{content:"";position:absolute;top:15px;left:50%;transform:translateX(-50%);
+    width:92px;height:22px;border-radius:999px;background:#0a0c0f;z-index:6}
+  .screen{position:absolute;inset:9px;border-radius:30px;overflow:hidden;display:flex;
+    flex-direction:column}
+  .sb{height:40px;display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 20px 5px;font-size:11px;font-weight:600;flex:0 0 auto}
+  .sb .dots{display:flex;gap:3px;align-items:center}
+  .sb .dots i{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.85}
+
+  /* generic UI atoms themed by --a (accent) etc. per direction */
+  .body{flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;
+    padding:5px 10px;border-radius:999px}
+  .dot{width:6px;height:6px;border-radius:50%;background:#25D366;flex:0 0 auto;
+    box-shadow:0 0 0 3px color-mix(in srgb,#25D366 25%,transparent)}
+  .btn{border:0;font:inherit;font-weight:700;cursor:pointer;border-radius:14px}
+  .wa{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366;
+    color:#06331a;font-weight:700;border-radius:14px;padding:12px;font-size:13px;border:0;width:100%}
+  .wa svg{width:16px;height:16px}
+  .field{display:flex;flex-direction:column;gap:2px}
+  .field .k{font-size:9.5px;text-transform:uppercase;letter-spacing:.1em}
+  .field .v{font-size:13px;font-weight:600}
+  .tagrow{display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-size:10.5px;font-weight:600;padding:4px 9px;border-radius:999px}
+
+  /* ============ DIRECTION A · LEDGER ============ */
+  .A{--bg:#F6F4EF;--surf:#FFFFFF;--ink:#1C2530;--mut:#727C89;--line:#E7E2D8;
+    --a:#2E5CB8;--asoft:#E7EEF9;--font:var(--sans)}
+  .A .screen{background:var(--bg);color:var(--ink);font-family:var(--font)}
+  .A .sb{color:var(--ink)}
+  .A .hdr{padding:6px 18px 12px;display:flex;align-items:center;justify-content:space-between}
+  .A .hdr .ttl{font-family:var(--serif);font-size:19px;font-weight:600}
+  .A .card{background:var(--surf);border:1px solid var(--line);border-radius:16px}
+  .A .tag{background:var(--asoft);color:var(--a)}
+  .A .field .k{color:var(--mut)}
+  .A .btn.primary{background:var(--a);color:#fff;padding:12px;font-size:13px;width:100%}
+
+  /* Scan (A) */
+  .A .scan{flex:1;margin:0 14px 14px;border-radius:20px;position:relative;overflow:hidden;
+    background:radial-gradient(120% 90% at 50% 15%,#33405a,#161d29)}
+  .A .guide{position:absolute;inset:26px 20px auto 20px;height:150px;border:2px solid rgba(255,255,255,.9);
+    border-radius:12px;box-shadow:0 0 0 2000px rgba(10,14,22,.35)}
+  .A .guide::before{content:"";position:absolute;inset:12px;border-radius:6px;
+    background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.03))}
+  .A .cardface{position:absolute;inset:38px 32px auto 32px;height:118px;border-radius:8px;
+    background:#fbfbfa;padding:14px 16px;display:flex;flex-direction:column;gap:3px;
+    box-shadow:0 10px 26px -10px rgba(0,0,0,.5)}
+  .A .cardface b{font-family:var(--serif);font-size:13px;color:#1c2530}
+  .A .cardface small{font-size:8.5px;color:#8a93a0;letter-spacing:.02em}
+  .A .cardface .co{margin-top:auto;font-size:8.5px;color:#2E5CB8;font-weight:700;letter-spacing:.06em}
+  .A .scanline{position:absolute;left:20px;right:20px;top:150px;height:2px;
+    background:linear-gradient(90deg,transparent,#7fd0ff,transparent);opacity:.9}
+  .A .shutter{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+    width:56px;height:56px;border-radius:50%;background:#fff;border:4px solid rgba(255,255,255,.4)}
+  .A .offl{position:absolute;top:14px;left:50%;transform:translateX(-50%);
+    background:rgba(9,13,20,.6);color:#eaf0f7;backdrop-filter:blur(4px)}
+
+  /* ============ DIRECTION B · SIGNAL (dark scanner) ============ */
+  .B{--bg:#0D1014;--surf:#161B22;--elev:#1E2531;--ink:#E9EDF2;--mut:#8A94A3;
+    --line:#262E3A;--a:#37E1B4;--asoft:rgba(55,225,180,.14);--font:var(--sans)}
+  .B .screen{background:var(--bg);color:var(--ink);font-family:var(--font)}
+  .B .sb{color:var(--ink)}
+  .B .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+  .B .card{background:var(--surf);border:1px solid var(--line);border-radius:14px}
+  .B .tag{background:var(--asoft);color:var(--a);font-family:var(--mono);letter-spacing:.04em}
+  .B .field .k{color:var(--mut);font-family:var(--mono);letter-spacing:.12em}
+  .B .btn.primary{background:var(--a);color:#04241b;padding:12px;font-size:13px;width:100%}
+
+  .B .scan{flex:1;position:relative;overflow:hidden;
+    background:radial-gradient(130% 80% at 50% 30%,#12313a,#0a0d11 70%)}
+  .B .grid{position:absolute;inset:0;background-image:
+    linear-gradient(rgba(55,225,180,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(55,225,180,.08) 1px,transparent 1px);background-size:26px 26px}
+  .B .recon{position:absolute;inset:60px 26px auto 26px;height:150px;border-radius:6px;
+    outline:1px solid rgba(55,225,180,.35);background:rgba(9,20,22,.35)}
+  .B .cnr{position:absolute;width:20px;height:20px;border:2px solid var(--a)}
+  .B .recon .cnr.tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
+  .B .recon .cnr.tr{top:-1px;right:-1px;border-left:0;border-bottom:0}
+  .B .recon .cnr.bl{bottom:-1px;left:-1px;border-right:0;border-top:0}
+  .B .recon .cnr.br{bottom:-1px;right:-1px;border-left:0;border-top:0}
+  .B .detect{position:absolute;height:13px;border-radius:3px;background:rgba(55,225,180,.16);
+    outline:1px solid rgba(55,225,180,.5)}
+  .B .shutter{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+    width:58px;height:58px;border-radius:50%;background:transparent;border:3px solid var(--a);
+    box-shadow:0 0 24px -2px rgba(55,225,180,.6)}
+  .B .shutter::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--a)}
+  .B .offl{position:absolute;top:16px;left:16px;background:var(--surf);border:1px solid var(--line);
+    color:var(--a);font-family:var(--mono);letter-spacing:.05em}
+
+  /* ============ DIRECTION C · FIELD (warm friendly) ============ */
+  .C{--bg:#FCF7F6;--surf:#FFFFFF;--ink:#2B2530;--mut:#8C8391;--line:#F1E7EB;
+    --a:#D6336C;--asoft:#FBEAF1;--font:var(--rounded)}
+  .C .screen{background:var(--bg);color:var(--ink);font-family:var(--font)}
+  .C .sb{color:var(--ink)}
+  .C .hdr{padding:8px 18px 10px}
+  .C .hdr .ttl{font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .C .hdr .sub{font-size:12px;color:var(--mut);font-weight:600}
+  .C .card{background:var(--surf);border:1px solid var(--line);border-radius:22px;
+    box-shadow:0 10px 24px -18px rgba(120,40,80,.4)}
+  .C .tag{background:var(--asoft);color:var(--a);font-weight:700}
+  .C .field .k{color:var(--mut);font-weight:700}
+  .C .btn.primary{background:var(--a);color:#fff;padding:13px;font-size:14px;width:100%;
+    border-radius:16px;box-shadow:0 10px 20px -8px rgba(214,51,108,.6)}
+
+  .C .scan{flex:1;margin:6px 14px 14px;border-radius:26px;position:relative;overflow:hidden;
+    background:linear-gradient(165deg,#f5b6cd,#c9557f)}
+  .C .guide{position:absolute;inset:44px 22px auto 22px;height:140px;border-radius:16px;
+    border:3px dashed rgba(255,255,255,.85)}
+  .C .cardface{position:absolute;inset:56px 34px auto 34px;height:116px;border-radius:14px;
+    background:#fff;padding:14px;display:flex;flex-direction:column;gap:3px;
+    box-shadow:0 14px 30px -12px rgba(90,20,50,.55)}
+  .C .cardface b{font-size:14px;font-weight:800}
+  .C .cardface small{font-size:9px;color:#a99aa4}
+  .C .cardface .co{margin-top:auto;font-size:9px;color:#D6336C;font-weight:800}
+  .C .hint{position:absolute;bottom:78px;left:0;right:0;text-align:center;color:#fff;
+    font-size:11px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+  .C .shutter{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+    width:60px;height:60px;border-radius:50%;background:#fff;border:5px solid rgba(255,255,255,.55)}
+  .C .offl{position:absolute;top:14px;left:14px;background:#fff;color:#C9557F}
+
+  /* shared inner layout helpers */
+  .pad{padding:0 16px}
+  .stack{display:flex;flex-direction:column;gap:10px}
+  .between{display:flex;align-items:center;justify-content:space-between}
+  .thumb{width:52px;height:34px;border-radius:6px;flex:0 0 auto;
+    background:linear-gradient(135deg,#cfd6e2,#9aa6b8);position:relative;overflow:hidden}
+  .thumb::after{content:"";position:absolute;inset:6px;border-radius:3px;background:rgba(255,255,255,.8)}
+  .avatar{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;
+    justify-content:center;font-weight:800;font-size:17px;flex:0 0 auto}
+
+  .legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:8px;font-size:13px;color:var(--page-muted)}
+  .legend b{color:var(--page-ink)}
+  .foot{margin-top:8px;color:var(--page-muted);font-size:14px;max-width:70ch}
+  .foot b{color:var(--page-ink)}
+
+  @media (max-width:560px){ .phone{width:236px;height:500px} }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">KIN · Mobile UI · Three directions to choose from</div>
+  <h1>Pick the face of the scanner.</h1>
+  <p class="lede">Same product, same flows — <b>scan a card offline, confirm the parsed contact, tag it, set a follow-up, share to WhatsApp</b>. Three visual identities carry that flow differently. Each is shown across the three screens that matter most: <b>Capture → Review → Contact</b>.</p>
+  <div class="meta">
+    <span>On-device OCR · no API key</span>
+    <span>Offline-first · queued sync</span>
+    <span>Tags &amp; grouping</span>
+    <span>Follow-up reminders</span>
+    <span>Person notes</span>
+    <span>WhatsApp share</span>
+  </div>
+
+  <!-- ============================== A ============================== -->
+  <div class="rule"></div>
+  <section class="A">
+    <div class="dir-head">
+      <div>
+        <div class="dir-id">DIRECTION A</div>
+        <h2 class="dir-title">Ledger</h2>
+        <p class="dir-desc">Calm, trustworthy, <b>CRM-professional</b>. Warm paper neutral, a confident blue, and a serif for names — reads like a tool you keep client relationships in. Restrained, legible, boardroom-safe.</p>
+        <div class="swatches">
+          <span class="sw"><i style="background:#F6F4EF"></i>#F6F4EF</span>
+          <span class="sw"><i style="background:#1C2530"></i>#1C2530</span>
+          <span class="sw"><i style="background:#2E5CB8"></i>#2E5CB8</span>
+          <span class="sw"><i style="background:#E7EEF9"></i>#E7EEF9</span>
+          <span class="sw"><i style="background:#25D366"></i>WhatsApp</span>
+        </div>
+      </div>
+      <p class="best"><b>Best if</b> KIN targets sales, consulting, finance — users who want it to feel serious.</p>
+    </div>
+
+    <div class="rail">
+      <!-- A: Scan -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body">
+            <div class="hdr"><span class="ttl">Scan a card</span><span class="pill" style="background:var(--asoft);color:var(--a)">Batch · 2</span></div>
+            <div class="scan">
+              <span class="pill offl"><span class="dot"></span>Offline · saved locally</span>
+              <div class="guide"></div>
+              <div class="cardface">
+                <b>Dana Whitfield</b>
+                <small>Head of Partnerships</small>
+                <small>+1 415 220 8874 · dana@northbay.io</small>
+                <span class="co">NORTHBAY CAPITAL</span>
+              </div>
+              <div class="scanline"></div>
+              <div class="shutter"></div>
+            </div>
+          </div>
+        </div></div>
+        <span class="cap">Capture</span>
+      </div>
+
+      <!-- A: Review -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body">
+            <div class="hdr"><span class="ttl">Confirm contact</span><span class="pill" style="background:var(--asoft);color:var(--a)">Parsed</span></div>
+            <div class="pad stack" style="overflow:auto">
+              <div class="card" style="padding:12px;display:flex;gap:11px;align-items:center">
+                <div class="thumb"></div>
+                <div class="field"><span class="k">From card image</span><span class="v">Front · tap to view</span></div>
+              </div>
+              <div class="card" style="padding:13px" >
+                <div class="stack" style="gap:11px">
+                  <div class="field"><span class="k">Name</span><span class="v">Dana Whitfield</span></div>
+                  <div class="field"><span class="k">Title · Company</span><span class="v">Head of Partnerships · Northbay Capital</span></div>
+                  <div class="field"><span class="k">Phone</span><span class="v">+1 415 220 8874</span></div>
+                  <div class="field"><span class="k">Email</span><span class="v">dana@northbay.io</span></div>
+                </div>
+              </div>
+              <div class="field"><span class="k" style="color:var(--mut);margin-bottom:5px">Tags</span>
+                <div class="tagrow"><span class="tag">Investor</span><span class="tag">SF Summit</span><span class="tag" style="background:transparent;border:1px dashed var(--line);color:var(--mut)">+ add</span></div>
+              </div>
+              <div class="card" style="padding:12px"><div class="field"><span class="k">Where did you meet?</span><span class="v" style="font-weight:500;color:var(--mut)">Booth 12 — talked about Series B…</span></div></div>
+            </div>
+            <div class="pad" style="padding-top:10px;padding-bottom:12px"><button class="btn primary">Save to CRM</button></div>
+          </div>
+        </div></div>
+        <span class="cap">Review &amp; edit</span>
+      </div>
+
+      <!-- A: Contact detail -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body">
+            <div class="pad" style="padding-top:8px">
+              <div class="between" style="margin-bottom:12px">
+                <div style="display:flex;gap:11px;align-items:center">
+                  <div class="avatar" style="background:var(--asoft);color:var(--a)">DW</div>
+                  <div><div style="font-family:var(--serif);font-size:16px;font-weight:600">Dana Whitfield</div>
+                  <div style="font-size:11px;color:var(--mut)">Head of Partnerships · Northbay</div></div>
+                </div>
+                <span class="pill" style="background:var(--asoft);color:var(--a)">Synced</span>
+              </div>
+            </div>
+            <div class="pad stack" style="overflow:auto">
+              <div class="tagrow"><span class="tag">Investor</span><span class="tag">SF Summit</span></div>
+              <div class="card" style="padding:12px;border-left:3px solid var(--a)">
+                <div class="between"><div class="field"><span class="k" style="color:var(--a)">Follow-up · in 3 days</span><span class="v">Send the deck</span></div>
+                <span class="pill" style="background:var(--asoft);color:var(--a)">Fri</span></div>
+              </div>
+              <div class="card" style="padding:12px"><div class="field"><span class="k">About this person</span>
+                <span class="v" style="font-weight:500">Met at booth 12, SF Summit. Warm on Series B. Referred by Marco.</span></div></div>
+              <div class="stack" style="gap:7px">
+                <div class="field"><span class="k">Phone</span><span class="v">+1 415 220 8874</span></div>
+                <div class="field"><span class="k">Email</span><span class="v">dana@northbay.io</span></div>
+              </div>
+              <button class="wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.7-2.7-1.1-4.4-3.9-4.5-4-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2 .5.4.9.6 1.2.4l.6-.7c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.4.4.1.2.1.6-.1 1.1Z"/></svg>Share to WhatsApp</button>
+            </div>
+          </div>
+        </div></div>
+        <span class="cap">Contact</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== B ============================== -->
+  <div class="rule"></div>
+  <section class="B">
+    <div class="dir-head">
+      <div>
+        <div class="dir-id">DIRECTION B</div>
+        <h2 class="dir-title">Signal</h2>
+        <p class="dir-desc">Dark, fast, <b>camera-first</b>. A viewfinder aesthetic with detection boxes and a mint signal accent — the app feels like precision hardware. Monospaced labels reinforce the "it's reading the card right now" moment.</p>
+        <div class="swatches">
+          <span class="sw"><i style="background:#0D1014"></i>#0D1014</span>
+          <span class="sw"><i style="background:#161B22"></i>#161B22</span>
+          <span class="sw"><i style="background:#37E1B4"></i>#37E1B4</span>
+          <span class="sw"><i style="background:#E9EDF2"></i>#E9EDF2</span>
+          <span class="sw"><i style="background:#25D366"></i>WhatsApp</span>
+        </div>
+      </div>
+      <p class="best"><b>Best if</b> KIN wants to feel modern, technical, and speed-obsessed — a scanner people show off.</p>
+    </div>
+
+    <div class="rail">
+      <!-- B: Scan -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body">
+            <div class="scan">
+              <div class="grid"></div>
+              <span class="pill offl">◦ OFFLINE · QUEUED</span>
+              <div class="recon">
+                <span class="cnr tl"></span><span class="cnr tr"></span><span class="cnr bl"></span><span class="cnr br"></span>
+                <span class="detect" style="top:20px;left:14px;width:96px"></span>
+                <span class="detect" style="top:44px;left:14px;width:70px;height:9px"></span>
+                <span class="detect" style="top:88px;left:14px;width:120px;height:9px"></span>
+                <span class="detect" style="top:112px;left:14px;width:60px;height:9px"></span>
+              </div>
+              <div style="position:absolute;top:224px;left:26px;right:26px;display:flex;gap:6px;flex-wrap:wrap">
+                <span class="tag">name ✓</span><span class="tag">phone ✓</span><span class="tag">email ✓</span><span class="tag">company ✓</span>
+              </div>
+              <div class="shutter"></div>
+            </div>
+          </div>
+        </div></div>
+        <span class="cap">Capture</span>
+      </div>
+
+      <!-- B: Review -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body" style="padding-top:8px">
+            <div class="pad between" style="margin-bottom:12px"><span class="lbl">// review · 4 fields</span><span class="tag">98% conf</span></div>
+            <div class="pad stack" style="overflow:auto">
+              <div class="card" style="padding:12px;display:flex;gap:11px;align-items:center">
+                <div class="thumb"></div><div class="field"><span class="k">card.front</span><span class="v">captured</span></div>
+              </div>
+              <div class="card" style="padding:13px"><div class="stack" style="gap:11px">
+                <div class="field"><span class="k">name</span><span class="v">Dana Whitfield</span></div>
+                <div class="field"><span class="k">title</span><span class="v">Head of Partnerships</span></div>
+                <div class="field"><span class="k">company</span><span class="v">Northbay Capital</span></div>
+                <div class="field"><span class="k">phone</span><span class="v">+1 415 220 8874</span></div>
+                <div class="field"><span class="k">email</span><span class="v">dana@northbay.io</span></div>
+              </div></div>
+              <div class="tagrow"><span class="tag">investor</span><span class="tag">sf_summit</span><span class="tag" style="background:transparent;border:1px solid var(--line);color:var(--mut)">+ tag</span></div>
+              <div class="card" style="padding:11px"><div class="field"><span class="k">note</span><span class="v" style="color:var(--mut);font-weight:500">booth 12 — series B interest</span></div></div>
+            </div>
+            <div class="pad" style="padding-top:10px;padding-bottom:12px"><button class="btn primary">Commit to CRM →</button></div>
+          </div>
+        </div></div>
+        <span class="cap">Review &amp; edit</span>
+      </div>
+
+      <!-- B: Contact -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body" style="padding-top:8px">
+            <div class="pad between" style="margin-bottom:12px">
+              <div style="display:flex;gap:11px;align-items:center">
+                <div class="avatar" style="background:var(--asoft);color:var(--a);border:1px solid rgba(55,225,180,.3)">DW</div>
+                <div><div style="font-size:15px;font-weight:700">Dana Whitfield</div><div class="lbl">northbay · partnerships</div></div>
+              </div>
+              <span class="tag">● synced</span>
+            </div>
+            <div class="pad stack" style="overflow:auto">
+              <div class="tagrow"><span class="tag">investor</span><span class="tag">sf_summit</span></div>
+              <div class="card" style="padding:12px;background:var(--asoft);border-color:rgba(55,225,180,.35)">
+                <div class="between"><div class="field"><span class="k" style="color:var(--a)">follow_up · +3d</span><span class="v">send the deck</span></div><span class="tag" style="background:var(--bg)">FRI</span></div>
+              </div>
+              <div class="card" style="padding:12px"><div class="field"><span class="k">about_person</span><span class="v" style="font-weight:500">booth 12 · warm on series B · ref: Marco</span></div></div>
+              <div class="stack" style="gap:7px">
+                <div class="field"><span class="k">phone</span><span class="v">+1 415 220 8874</span></div>
+                <div class="field"><span class="k">email</span><span class="v">dana@northbay.io</span></div>
+              </div>
+              <button class="wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.7-2.7-1.1-4.4-3.9-4.5-4-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2 .5.4.9.6 1.2.4l.6-.7c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.4.4.1.2.1.6-.1 1.1Z"/></svg>Share to WhatsApp</button>
+            </div>
+          </div>
+        </div></div>
+        <span class="cap">Contact</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== C ============================== -->
+  <div class="rule"></div>
+  <section class="C">
+    <div class="dir-head">
+      <div>
+        <div class="dir-id">DIRECTION C</div>
+        <h2 class="dir-title">Field</h2>
+        <p class="dir-desc">Warm, human, <b>relationship-first</b>. Rounded type, soft cards, a friendly raspberry accent. Leans into the <b>“who is this person and how did we meet”</b> story rather than the machinery — approachable for founders, creatives, and networkers.</p>
+        <div class="swatches">
+          <span class="sw"><i style="background:#FCF7F6"></i>#FCF7F6</span>
+          <span class="sw"><i style="background:#2B2530"></i>#2B2530</span>
+          <span class="sw"><i style="background:#D6336C"></i>#D6336C</span>
+          <span class="sw"><i style="background:#FBEAF1"></i>#FBEAF1</span>
+          <span class="sw"><i style="background:#25D366"></i>WhatsApp</span>
+        </div>
+      </div>
+      <p class="best"><b>Best if</b> KIN is consumer-friendly and personal — networking, community, warm follow-ups.</p>
+    </div>
+
+    <div class="rail">
+      <!-- C: Scan -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body">
+            <div class="hdr"><div class="ttl">New card</div><div class="sub">Point at the card — we’ll do the rest</div></div>
+            <div class="scan">
+              <span class="pill offl">✿ Offline · we saved it</span>
+              <div class="guide"></div>
+              <div class="cardface">
+                <b>Dana Whitfield</b><small>Head of Partnerships</small>
+                <small>+1 415 220 8874 · dana@northbay.io</small><span class="co">NORTHBAY CAPITAL</span>
+              </div>
+              <div class="hint">Hold steady ✨</div>
+              <div class="shutter"></div>
+            </div>
+          </div>
+        </div></div>
+        <span class="cap">Capture</span>
+      </div>
+
+      <!-- C: Review -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body">
+            <div class="hdr"><div class="ttl">Say hi to Dana 👋</div><div class="sub">Check we got it right</div></div>
+            <div class="pad stack" style="overflow:auto">
+              <div class="card" style="padding:13px"><div class="stack" style="gap:11px">
+                <div class="field"><span class="k">Name</span><span class="v">Dana Whitfield</span></div>
+                <div class="field"><span class="k">Role</span><span class="v">Head of Partnerships · Northbay</span></div>
+                <div class="field"><span class="k">Phone</span><span class="v">+1 415 220 8874</span></div>
+                <div class="field"><span class="k">Email</span><span class="v">dana@northbay.io</span></div>
+              </div></div>
+              <div><div class="field" style="margin-bottom:6px"><span class="k">Tags</span></div>
+                <div class="tagrow"><span class="tag">Investor</span><span class="tag">SF Summit</span><span class="tag" style="background:transparent;border:1px dashed var(--a);color:var(--a)">+ add</span></div></div>
+              <div class="card" style="padding:13px"><div class="field"><span class="k">How did you meet?</span><span class="v" style="font-weight:600;color:var(--mut)">Booth 12 — chatted about the Series B ✨</span></div></div>
+            </div>
+            <div class="pad" style="padding-top:10px;padding-bottom:12px"><button class="btn primary">Save Dana</button></div>
+          </div>
+        </div></div>
+        <span class="cap">Review &amp; edit</span>
+      </div>
+
+      <!-- C: Contact -->
+      <div class="col">
+        <div class="phone"><div class="screen">
+          <div class="sb"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="body">
+            <div class="pad" style="padding-top:10px">
+              <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+                <div class="avatar" style="background:var(--a);color:#fff">DW</div>
+                <div><div style="font-size:17px;font-weight:800">Dana Whitfield</div>
+                  <div style="font-size:12px;color:var(--mut);font-weight:600">Head of Partnerships · Northbay</div></div>
+              </div>
+            </div>
+            <div class="pad stack" style="overflow:auto">
+              <div class="tagrow"><span class="tag">Investor</span><span class="tag">SF Summit</span></div>
+              <div class="card" style="padding:14px;background:var(--asoft);border-color:#F5D4E1">
+                <div class="between"><div class="field"><span class="k" style="color:var(--a)">Follow up in 3 days</span><span class="v">Send the deck 💌</span></div>
+                  <span class="pill" style="background:#fff;color:var(--a)">Fri</span></div>
+              </div>
+              <div class="card" style="padding:14px"><div class="field"><span class="k">How we met</span>
+                <span class="v" style="font-weight:600">Booth 12 at SF Summit. Warm on the Series B. Marco introduced us.</span></div></div>
+              <button class="wa"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-3.2-.7-2.7-1.1-4.4-3.9-4.5-4-.1-.2-1-1.4-1-2.6s.6-1.8.9-2.1c.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2 .5.4.9.6 1.2.4l.6-.7c.2-.2.4-.2.6-.1l1.9.9c.2.1.4.2.4.4.1.2.1.6-.1 1.1Z"/></svg>Share Dana on WhatsApp</button>
+            </div>
+          </div>
+        </div></div>
+        <span class="cap">Contact</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+  <p class="foot"><b>How to choose:</b> all three cover every required feature — offline capture, editable review, tags, follow-ups, person notes, and WhatsApp share. Pick on <b>tone</b>: <b>Ledger</b> for serious/professional, <b>Signal</b> for fast/technical, <b>Field</b> for warm/human. The chosen palette and type become the shared design tokens across the app and the Next.js CRM. Mix-and-match is fine — e.g. Ledger’s structure with Field’s warmth.</p>
+</div>
