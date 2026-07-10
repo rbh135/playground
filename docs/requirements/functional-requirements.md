@@ -146,7 +146,36 @@ Requirements are grouped by subsystem: **App (mobile scanner)**,
 
 ---
 
-## 11. Traceability summary
+## 11. Data export & interoperability
+
+The user must be able to get their scanned data **out** of KIN in formats that
+are (a) usable by other analytics / BI / spreadsheet software and (b) fine for
+plain viewing. Exports cover card fields **and** the KIN‑specific data (tags,
+person notes, follow‑ups, dates, source).
+
+| ID | Priority | Requirement | Acceptance criteria |
+|---|---|---|---|
+| FR‑10.1 | M | The CRM shall export contacts as **CSV** with a stable, documented column schema, UTF‑8 (BOM‑optional), **ISO‑8601 dates**, and **E.164 phone** normalization. | Exported CSV opens cleanly in Excel / Google Sheets / pandas with correct columns and no mangled encoding. |
+| FR‑10.2 | M | The CSV/tabular export shall include **all analytically useful fields**: name, title, company, phones, emails, website, address, **tags** (delimited or one‑hot), **date met / where met**, **follow‑up due & status**, created/updated timestamps, and source (scan/manual). | Each field appears as its own column (or a documented multi‑value encoding). |
+| FR‑10.3 | M | The CRM shall export contacts as **JSON** (structured) and **NDJSON / JSON‑Lines** (one record per line) for programmatic and analytics ingestion. | Exported JSON validates against the published schema; NDJSON streams row‑by‑row into analytics tools. |
+| FR‑10.4 | S | The CRM shall export as **XLSX (Excel)** with typed columns and a header row, suitable for direct viewing/pivoting. | Opening the file in Excel shows typed cells (dates as dates, numbers as numbers). |
+| FR‑10.5 | S | The user shall be able to export the **current filtered/grouped view** (by tag, follow‑up status, date, search), not only the full dataset. | Applying a tag filter then exporting yields only those contacts. |
+| FR‑10.6 | S | The CRM shall export a **human‑readable PDF** of a contact or a filtered list (for viewing/printing/sharing), including the card image. | Generated PDF renders contact details + card image legibly. |
+| FR‑10.7 | M | The app/CRM shall export **vCard 3.0/4.0 (.vcf)** for a contact or a batch, importable by iOS/Android/Google/Outlook contacts. | Exported vCard imports without errors into the OS address book. |
+| FR‑10.8 | S | Export shall be available from **both the CRM (download)** and the **app (OS share sheet → WhatsApp / email / files)**. | User can share an exported file to WhatsApp or email from the app. |
+| FR‑10.9 | S | The system shall publish an **export field dictionary / schema** (column names, types, meanings) so downstream tools can map fields reliably. | A schema doc/endpoint documents every exported field. |
+| FR‑10.10 | C | The CRM shall support a **stable, read‑only export API endpoint** (authenticated) returning JSON/CSV for automated pulls into BI tools. | An authorized GET returns the account's contacts as JSON/CSV. |
+| FR‑10.11 | C | Card **images** may be exported in bulk (zip) alongside a manifest linking image → contact. | A zip export contains images plus a manifest CSV/JSON. |
+
+> **Design note:** CSV + NDJSON/JSON are the "adequate analytics formats" (they
+> load directly into Excel, Google Sheets, pandas, Power BI, Tableau, Looker,
+> etc.); XLSX and PDF are the "for viewing" formats; vCard is for address‑book
+> interoperability. All are open, non‑proprietary, and require no paid tooling
+> (NFR‑11).
+
+---
+
+## 12. Traceability summary
 
 | Business ask | Requirements |
 |---|---|
@@ -161,10 +190,11 @@ Requirements are grouped by subsystem: **App (mobile scanner)**,
 | Open‑source / free scanner | FR‑2.2 (+ research doc) |
 | English | FR‑9.1 |
 | WhatsApp sharing | FR‑8.1 – FR‑8.5 |
+| Export for analytics / viewing | FR‑10.1 – FR‑10.11 |
 
 ---
 
-## 12. Out of scope for v1 (backlog)
+## 13. Out of scope for v1 (backlog)
 
 - Team / multi‑user shared workspaces and role‑based permissions.
 - Two‑way calendar/email integration (Gmail, Outlook) and automated sequences.

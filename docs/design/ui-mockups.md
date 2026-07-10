@@ -1,4 +1,10 @@
-# KIN — Mobile UI Mockup Directions (choose one)
+# KIN — Mobile UI Mockup Directions
+
+> ## ✅ Selected: **Direction B — "Signal"**
+> The dark, camera‑first, technical direction is the chosen identity for KIN.
+> Its palette and type are locked into the shared design tokens in
+> [`design-tokens.md`](./design-tokens.md) and apply to **both** the mobile app
+> and the Next.js CRM. Directions A and C are retained below for record.
 
 Three visual directions for the KIN mobile app, each shown across the three
 screens that matter most: **Capture → Review → Contact**. All three cover every
@@ -21,7 +27,7 @@ serious relationship tool.
 - **Type:** serif for names/headings, system sans for body.
 - **Best if** KIN targets sales, consulting, finance — users who want it to feel serious and boardroom-safe.
 
-## Direction B — "Signal"  ·  fast / technical / camera-first
+## Direction B — "Signal"  ·  fast / technical / camera-first  ·  ✅ SELECTED
 
 Dark viewfinder aesthetic with live detection boxes and a mint signal accent;
 monospaced labels reinforce the "it's reading the card right now" moment.

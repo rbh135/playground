@@ -99,6 +99,8 @@ Non‑functional requirements describe *how well* the system behaves. IDs are
 | NFR‑9.2 | Single cross‑platform mobile codebase preferred. | React Native or Flutter (see architecture doc) to share app logic. |
 | NFR‑9.3 | CRM browser support. | Latest 2 versions of Chrome, Safari, Edge, Firefox; responsive/mobile‑web friendly. |
 | NFR‑9.4 | OCR engine is bundled and version‑pinned. | On‑device model shipped with the app; deterministic across the supported OS range. |
+| NFR‑9.5 | Exports use **open, non‑proprietary, standards‑based formats** that require no paid software to open or process. | CSV (RFC 4180), JSON/NDJSON, XLSX (OOXML), vCard, and PDF only; loadable in Excel, Sheets, pandas, Power BI, Tableau. |
+| NFR‑9.6 | Exported data is **portable and self‑describing** — UTF‑8, ISO‑8601 dates, E.164 phones, and a published field dictionary. | A third party can map/import the export using only the schema doc, no reverse‑engineering. |
 
 ## 10. Maintainability & observability
 

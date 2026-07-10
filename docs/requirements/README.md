@@ -26,7 +26,9 @@ by tags**, sets **follow‑up reminders** for selected contacts, records
 | [`non-functional-requirements.md`](./non-functional-requirements.md) | How well it must do it — performance, security, privacy, offline, i18n, etc. |
 | [`../research/existing-solutions.md`](../research/existing-solutions.md) | "Has this been done before?" — prior art, reusable open‑source OCR, and gap analysis. |
 | [`../design/tech-architecture.md`](../design/tech-architecture.md) | Recommended stack, offline‑sync design, WhatsApp linking, auth. |
-| [`../design/ui-mockups.md`](../design/ui-mockups.md) | Mobile UI mockup directions to choose from (interactive preview linked). |
+| [`../design/ui-mockups.md`](../design/ui-mockups.md) | Mobile UI mockup directions — **Direction B "Signal" selected** (interactive preview linked). |
+| [`../design/design-tokens.md`](../design/design-tokens.md) | Locked color / type / spacing tokens for the chosen "Signal" identity (app + CRM). |
+| [`../DECISIONS.md`](../DECISIONS.md) | Running log of product/design/tech decisions. |
 
 ## Scope of this deliverable
 
@@ -34,9 +36,10 @@ by tags**, sets **follow‑up reminders** for selected contacts, records
 - ✅ Non‑functional requirements document
 - ✅ Prior‑art / existing‑solution research + gap analysis
 - ✅ Recommended offline, no‑API‑key, open‑source scanning approach
-- ✅ Mobile UI mockup **options to choose from** (three visual directions)
+- ✅ Mobile UI mockup **options** → **Direction B "Signal" selected** (tokens locked)
 - ✅ English (i18n‑ready foundation)
 - ✅ WhatsApp share of scanned‑card findings
+- ✅ Data **export** for analytics / viewing (CSV, JSON/NDJSON, XLSX, PDF, vCard)
 
 ## Glossary
 
